@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/core.css') }}">
+        <title>RoamersHub</title>
+    </head>
+    <body>
+
+        <header class="flex collumn">
+
+            <div class="flex justify-content-between">
+
+                <h1>Find and share travel destinations!</h1>
+
+                <nav>
+
+                    <ul class="flex gap-8px">
+                        <li><a href="">Home</a></li>
+                        <li><a href="">Information</a></li>
+                        <li><a href="">Contact</a></li>
+                        <ul>
+                            {% if current_user.is_authenticated %}
+                            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                            <li><a href="{{ url_for('account') }}">Account</a></li>
+                            {% else %}
+                            <li><a href="{{ url_for('login') }}">Login</a></li>
+                            {% endif %}
+                        </ul>
+                    </ul>
+
+                </nav>
+
+            </div>
+
+            <section class="hero-container">
+                <h2>RoamersHub</h2>
+                <img src="{{ url_for('static', filename="/img/hero-banner.jpg")}}" alt="">
+                <p>The ideal place to find your next trip's destination. &lpar;:</p>
+            </section>
+
+        </header>
+
+        <main>
+            <article>
+                <h2>Browse throught other people's posts!</h2>
+            </article>
+        </main>
+        <footer class="flex gap-20px justify-content-center">
+            <article>
+                <p>© 2024 RoamersHub, Inc</p>
+            </article>
+            <article>
+                <h2>Marketing</h2>
+            </article>
+            <article>
+                <h2>Legal Information</h2>
+            </article>
+        </footer>
+    </body>
+</html>

@@ -1,0 +1,31 @@
+.login-box {
+    padding: 20px;
+    border: 1px solid black;
+    text-align: center;
+}
+
+a {
+    color: white;
+}
+
+form > * {
+    max-width: max-content;
+    text-align: center;
+}
+
+input[type="submit"] {
+    padding: 5px 8px 5px 8px;
+}   
+
+body {
+    height: 100vh;
+}
+
+header {
+    height: 4%;
+    background-color: black;
+}
+
+main {
+    height: 96%;
+}

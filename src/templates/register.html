@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename='core.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+        <title>Wanderlist</title>
+    </head>
+    <body>
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="/login">Return to the login page</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main class="flex justify-content-center align-items-center">
+            <article class="login-box">
+                <section class="flex collumn gap-20px">
+                    <h1>Login</h1>
+                    <form class="flex collumn gap-20px align-items-center" action="#" method="post">
+                        <input type="text" id="username" name="username" placeholder="Your username" required pattern="[A-Za-z1-9]{4,12}" minlength="4" maxlength="12">
+                        <label for="username">Your username should have a maximum of 12 letters, minimum of 4 and no special caracters (?, /, %, etc). </label>
+                        <input type="email" id="email" name="email" placeholder="Your best e-mail" required>
+                        <input type="password" id="password" name="password" placeholder="A strong password" pattern="{12,70}" required minlength="12" maxlength="70">
+                        <label for="password">Your password should have between a minimum of 12 to a maximum of 70 caracters.</label>
+                        <input type="password" id="password" name="password" placeholder="Confirm your password" required>
+                        <input type="submit" value="Register">
+                    </form>
+                </section>
+            </article>
+        </main>
+    </body>
+</html>

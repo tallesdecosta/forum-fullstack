@@ -1,0 +1,56 @@
+h1, h2 {
+    font-size: 26px;
+}
+
+footer {
+    padding: 20px 25px 20px 25px;
+}
+
+img {
+    object-fit:cover;
+    width: 100%;
+    max-height: 100%;
+}
+
+.flex {
+    display: flex;
+}
+
+.collumn {
+    flex-direction: column;
+}
+
+.gap-8px {
+    gap: 8px;
+}
+
+.gap-20px {
+    gap: 20px;
+}
+
+.justify-content-between {
+    justify-content: space-between;
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.hero-container {
+    position: relative;
+    width: 100vw;
+    height: 90vh;
+    max-width: 100%;
+}
+
+.hero-container > h2 {
+    position: absolute;
+    left: 50%;
+    top: 40%;
+}
+
+.hero-container p {
+    position: absolute;
+    bottom: 50%;
+    left: 44%;
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link rel="shortcut icon" href="/img/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="{{ url_for('static', filename='core.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+        <title>Wanderlist</title>
+    </head>
+    <body>
+        <header>
+            <nav>
+                <ul>
+                    <li><a href="/">Return to the main page</a></li>
+                </ul>
+            </nav>
+        </header>
+        <main class="flex justify-content-center align-items-center">
+            <article class="login-box">
+                <section class="flex collumn gap-20px">
+                    <h1>Login</h1>
+                    <form class="flex collumn gap-20px align-items-center" action="#" method="post">
+                        <input type="email" id="email" name="email" placeholder="Your account e-mail" required>
+                        <input type="password" id="password" name="password" placeholder="Your account password" required>
+                        <input type="submit" value="Login">
+                    </form>
+                    <p>Are you not registered yet? <a href="/register">Register here</a></p>
+                </section>
+            </article>
+        </main>
+    </body>
+    <script defer type="text/javascript">
+
+        var auth = {{ auth | tojson }}
+
+        window.onload = function() {
+                if ( auth == "false") {
+                alert("Please login into your account before proceeding.")
+            }
+        };
+        
+    </script>
+</html>

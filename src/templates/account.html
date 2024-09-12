@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='core.css') }}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li>
+                    <a href="{{ url_for('index') }}">Return</a>
+                </li>
+                <div>
+
+                </div>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <article>
+            <h1>Account details</h1>
+            <section>
+                <h2>Avatar and description</h2>
+                <form action="#" method="post">
+                    <label for="description">Your new description</label>
+                    <br>
+                    <textarea id="description" maxlength="140">
+                    </textarea>
+                </form>
+            </section>
+            <section>
+                <h2>Private information</h2>
+                <form action="#" method="post">
+                    <label for="username">Username: </label>
+                    <input type="hidden" name="type" value="username" />
+                    <input type="text" id="username" name="username" placeholder="Current username: {{ current_user.username }}" required>
+                    <input type="submit" value="Change username">
+                </form>
+                <form action="#" method="post">
+                    <label for="password">Password: </label>
+                    <input type="hidden" name="type" value="password" />
+                    <input type="password" id="password" pattern="{12,70}" name="password" minlength="12" maxlength="70" required>
+                    <input type="submit" value="Change password">
+                </form>
+            </section>
+        </article>
+    </main>
+</body>
+</html>
