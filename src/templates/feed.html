@@ -2,58 +2,128 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/core.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/feed.css')}}">
         <title>Document</title>
     </head>
-    <body>
-        <header>
+    <body onload="getPosts()">
+        <header class="flex justify-content-between">
 
-            <div>
+            <div class="flex gap-8px">
 
-                <img src="" alt="">
+                <img id="logo" src="{{ url_for('static', filename='img/icons/light-icons/logo-light.svg')}}" alt="">
 
-                <i></i>
+                <button>
+                    <img src="{{ url_for('static', filename='img/icons/search.svg') }}" alt="">
+                </button>
 
             </div>
 
-            <div>
+            <div class="flex justify-content-between gap-8px">
 
                 <button>
-
+                    <img src="{{ url_for('static', filename='img/icons/light-icons/chat-light.svg')}}" alt="">
                 </button>
 
                 <button>
-                    <img src="" alt="">
+                    <img src="{{ url_for('static', filename='img/icons/light-icons/no-updates-light.svg')}}" alt="">
                 </button>
+
+                {% if current_user.is_authenticated %}
+                <button onclick="showUserMenu()">
+                    <img id="user-avatar" src="static/img/avatars/{{ current_user.avatar }}" alt="">
+                </button>
+                
+                <nav>
+                    <ul>
+                        <li><a href="{{ url_for('account') }}">Account</a></li>
+                        <li><a href="{{ url_for('logout') }}">Log out</a></li>
+                    </ul>
+                </nav>
+                {% else %}
+                <a href="{{url_for('login')}}">Login</a>
+                {% endif %}
+                
 
             </div>
 
         </header>
 
-        <section>
-
-            <button>Newest</button>
-
-            <button>Popular</button>
-
-            <button>Following</button>
-
-        </section>
-
         <main>
-            <section>
-                <img src="" alt="">
-                <form action="" method="post">
-                    <fieldset>
-                        <legend>Let's share what's going on...</legend>
-                        <textarea name="" id=""></textarea>
-                    </fieldset>
-                    <input type="submit" value="Create Post">
+            <section class="filters-wrapper flex justify-content-center">
+
+                <button class="filter">Newest</button>
+    
+                <button class="filter">Popular</button>
+    
+                <button class="filter">Following</button>
+    
+            </section>
+
+            {% if current_user.is_authenticated %}
+            <section class="submit-post-wrapper flex justify-content-center">
+                <form class="flex" onsubmit="event.preventDefault()" method="post">
+                    <input type="text" name="post-content" id="post-content" placeholder="Let's share..."/>
+                    <input id="post-btn" type="submit" value="Create Post" onclick="sendPost()">
                 </form>
             </section>
-            <section class="posts-wrapper">
-                
+            {% else %}
+            <section>
+                <h2>Navegating without an account? Join us an enjoy much more</h2>
+                <button>Register</button>
+                <div>
+                    <p>Already have an account?</p>
+                    <button>Login</button>
+                </div>
+            </section>        
+            {% endif %}
+
+            <section class="posts-wrapper" id="posts-wrapper">
+                <article class="post flex gap-20px">
+                    <img class="post-img" src="{{ url_for('static', filename='img/no-pic.jpg') }}" alt="">
+                    <div class="flex collumn gap-8px">
+                        <div class="flex justify-content-between">
+                            <h3>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nulla itaque assumenda culpa tempora fuga libero iure minus dolore. Odio similique ipsum ut neque ducimus suscipit debitis, cupiditate beatae commodi eos.</h3>
+                            <img class="post-avatar" src="{{ url_for('static', filename='img/no-pic.jpg')}}" alt="">
+                        </div>
+                        <div>
+                            <button class="tag">tag</button>
+                            <button class="tag">tag</button>
+                            <button class="tag">tag</button>
+                        </div>
+                        <div class="flex gap-30px">
+                            <p>X likes</p>
+                            <p>Y comments</p>
+                        </div>
+                    </div>
+                </article>
+                <article class="post flex gap-20px">
+                    <img class="post-img" src="{{ url_for('static', filename='img/no-pic.jpg') }}" alt="">
+                    <div class="flex collumn gap-8px">
+                        <div class="flex justify-content-between">
+                            <h3>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nulla itaque assumenda culpa tempora fuga libero iure minus dolore. Odio similique ipsum ut neque ducimus suscipit debitis, cupiditate beatae commodi eos.</h3>
+                            <img class="post-avatar" src="{{ url_for('static', filename='img/no-pic.jpg')}}" alt="">
+                        </div>
+                        <div>
+                            <button class="tag">tag</button>
+                            <button class="tag">tag</button>
+                            <button class="tag">tag</button>
+                        </div>
+                        <div class="flex gap-30px">
+                            <p>X likes</p>
+                            <p>Y comments</p>
+                        </div>
+                    </div>
+                </article>
             </section>
         </main>
+        <footer>
+            a
+        </footer>
     </body>
+    <script>
+        let username = "{{ current_user.username }}"
+    </script>
+    <script src="{{ url_for('static', filename='js/feed.js') }}"></script>
 </html>

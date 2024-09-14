@@ -1,5 +1,6 @@
 import re
 import bcrypt
+import database 
 
 def validate_register(email, password, username):
 
@@ -23,6 +24,16 @@ def validate_register(email, password, username):
         usernameValid = False
     
     return emailValid, passwordValid, usernameValid
+
+def check_duplicate(email, username):
+    """"""
+    username_db = database.select_username_with_username(username)
+    email_db = database.select_email_with_email(email)
+
+    if(username_db == username or email_db == email):
+        return True
+    else:
+        return False
 
 def validate_password(password):
     passwordRe = r'([A-Za-z0-9!@#$&~()\\-`.+,/\"}{]){12,64}'
