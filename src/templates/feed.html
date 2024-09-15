@@ -5,12 +5,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/core.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/feed.css')}}">
-        <title>Document</title>
+        <title>Gloo</title>
     </head>
     <body onload="getPosts()">
         <header class="flex justify-content-between">
 
-            <div class="flex gap-8px">
+            <div class="flex gap-20px">
 
                 <img id="logo" src="{{ url_for('static', filename='img/icons/light-icons/logo-light.svg')}}" alt="">
 
@@ -35,10 +35,12 @@
                     <img id="user-avatar" src="static/img/avatars/{{ current_user.avatar }}" alt="">
                 </button>
                 
-                <nav>
+                <nav id="menu">
                     <ul>
+                        <li><a href="{{ url_for('profile', username = current_user.username) }}">Profile</a></li>
                         <li><a href="{{ url_for('account') }}">Account</a></li>
                         <li><a href="{{ url_for('logout') }}">Log out</a></li>
+                        
                     </ul>
                 </nav>
                 {% else %}
@@ -51,22 +53,34 @@
         </header>
 
         <main>
-            <section class="filters-wrapper flex justify-content-center">
+            <section class="filters-wrapper flex justify-content-center gap-8px">
 
-                <button class="filter">Newest</button>
+                <button class="filter flex gap-4px align-items-center">
+                    <img class="filter-img" src="{{ url_for('static', filename='img/icons/newest.svg')}}" alt="">
+                    <p>Newest</p>
+                </button>
     
-                <button class="filter">Popular</button>
-    
-                <button class="filter">Following</button>
+                <button class="filter flex gap-4px align-items-center active">
+                    <img class="" src="{{ url_for('static', filename='img/icons/popular.svg')}}" alt="">
+                    <p>Popular</p>
+                </button>
+                
+                <div class="flex align-items-center gap-4px">
+                    <button class="filter flex gap-4px align-items-center">
+                        <img class="filter-img" src="{{ url_for('static', filename='img/icons/following.svg')}}" alt="">
+                        <p>Following</p>
+                    </button>
+                    <span id="f-count-span">
+                        <p id="following-count">100</p>
+                    </span>
+                </div>
     
             </section>
 
             {% if current_user.is_authenticated %}
-            <section class="submit-post-wrapper flex justify-content-center">
-                <form class="flex" onsubmit="event.preventDefault()" method="post">
-                    <input type="text" name="post-content" id="post-content" placeholder="Let's share..."/>
-                    <input id="post-btn" type="submit" value="Create Post" onclick="sendPost()">
-                </form>
+            <section class="submit-post-wrapper flex collumn justify-content-center align-items-center gap-8px">
+                <p id="post-content">Let's share? Don't be shy :p</p>
+                <a id="post-btn" href="{{url_for('create_post')}}">Create Post</a>
             </section>
             {% else %}
             <section>
@@ -125,5 +139,5 @@
     <script>
         let username = "{{ current_user.username }}"
     </script>
-    <script src="{{ url_for('static', filename='js/feed.js') }}"></script>
+    <script defer src="{{ url_for('static', filename='js/feed.js') }}"></script>
 </html>

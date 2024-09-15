@@ -66,7 +66,7 @@ def index():
 def feed():
     return render_template("feed.html")
 
-@app.route('/feed/create-post')
+@app.route('/profile/create_post')
 @login_required
 def create_post():
     return render_template('create-post.html')
@@ -80,6 +80,14 @@ def get_posts():
 def post_posts():
     data = request.get_json()
     return jsonify(data)
+
+@app.route('/profile/<string:username>')
+def profile(username):
+    return render_template('profile.html', user = username)
+
+@app.route('/feed/post/<int:post_id>')
+def post_page(post_id):
+    return render_template('post.html', id = post_id)
 
 @app.route('/login')
 def login():
@@ -115,7 +123,7 @@ def register():
 def account():
     return render_template("account.html")
 
-@app.route('/account', methods = ["GET", "POST"])
+@app.route('/account', methods = ["POST"])
 def change_information():
     if request.form.get("type") == "username":
         username = request.form.get("username")
@@ -140,7 +148,6 @@ def change_information():
         else:
             return redirect("/account", 402)
         
-
 @app.route('/logout')
 def logout():
     logout_user()

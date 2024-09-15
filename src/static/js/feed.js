@@ -10,14 +10,14 @@ async function getPosts() {
 
             if (!res.ok) {
 
-                throw new Error(`HTTP ERROR STATUS ${res.status}.`);
+                return 'a';
 
             }
 
             return res.json();
 
         });
-        
+        console.log(response)
         createPostsElements(response);
 
     } catch (error) {
@@ -66,7 +66,7 @@ function createPostsElements(json) {
 
     
     for (item in json) {
-
+        console.log(item)
         postsWrapper = document.getElementById("posts-wrapper");
 
         post = document.createElement("article");
@@ -125,7 +125,8 @@ function createPostsElements(json) {
         
         metricsWrapper.appendChild(likes);
         metricsWrapper.appendChild(comments);
-
+        post.addEventListener('click', directPost)
+        post.id = `${json[item].post_id}`
         postsWrapper.appendChild(post);
     }
 };
@@ -134,4 +135,27 @@ function displayError(error) {
 
     console.log(error)
 
+}
+
+function showUserMenu() {
+
+    menu = document.getElementById('menu');
+
+    if (menu.classList.contains('open-menu')){
+
+        document.getElementById('menu').classList.remove('open-menu');
+
+    } else {
+
+        document.getElementById('menu').classList.add('open-menu');
+
+    }
+    
+}
+
+function directPost() {
+
+    post = document.getElementById(`${this.id}`);
+    url = `http://127.0.0.1:5000/feed/post/${post.id}`;
+    window.location.href = url; 
 }
