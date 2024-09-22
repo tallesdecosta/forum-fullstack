@@ -5,22 +5,24 @@
     --paragraph-color: #C5D0E6;
     --accent: #FF6934;
     --accent-sec: #2C353D;
+    --h2-size: 12px;
+    --p-size: 9px;
 }
 
-h3 {
+h2 {
     color: var(--title-color);
-    font-size: 12px;
+    font-size: var(--h2-size);
     font-weight: 300;
     max-width: 187px;
 }
 
 p {
     color: var(--paragraph-color);
-    font-size: 9px;
+    font-size: var(--p-size);
 }
 
 a {
-    font-size: 9px;
+    font-size: var(--p-size);
 }
 
 button p, a {
@@ -53,9 +55,10 @@ footer {
     border-top: #1E252B 1px solid;
 }
 
-header, footer, .filters-wrapper, .submit-post-wrapper {
+header, footer, .filters-wrapper, .submit-post-wrapper, .register-warning {
     background-color: var(--sec-color);
 }
+
 
 #logo {
     max-width: 35px;
@@ -66,10 +69,16 @@ header, footer, .filters-wrapper, .submit-post-wrapper {
     border-radius: 8px;
 }
 
-.filters-wrapper {
+.filters-wrapper, .register-warning {
     padding: 6px;
     border-radius: 10px;
     margin-bottom: 20px;
+    box-shadow: 2px 3px 4px -1px rgba(0,0,0,0.75);
+    max-width: 556px;
+}
+
+.register-warning {
+    
 }
 
 .filter {
@@ -84,7 +93,18 @@ filter:active {
     padding: 14px;
     margin-bottom: 20px;
     border-radius: 10px;
+    box-shadow: 2px 3px 4px -1px rgba(0,0,0,0.75);
     
+}
+
+.top-wrapper {
+    max-width: 556px;
+    margin-inline: auto;
+}
+
+.top-wrapper > * {
+    flex: 1 1 0;
+    width: 100%;
 }
 
 .post-img {
@@ -101,6 +121,8 @@ filter:active {
 
 .posts-wrapper {
     overflow: auto;
+    
+    
 }
 
 #post-btn {
@@ -108,7 +130,7 @@ filter:active {
     color: var(--title-color);
     padding: 4px 6px 4px 6px;
     border-radius: 6px;
-    font-size: 11px;
+    font-size: var(--p-size);
 }
 
 .post {
@@ -116,6 +138,10 @@ filter:active {
     margin-bottom: 20px;
     border-radius: 10px;
     background-color: var(--sec-color);
+    box-shadow: 2px 3px 4px -1px rgba(0,0,0,0.75);
+    max-width: 556px;
+    flex: 1 1 0;
+    width: 100%;
 }
 
 .tag {
@@ -127,8 +153,8 @@ filter:active {
     font-size: 9px;
 }
 
-#post-content {
-    font-size: 12px;
+#post-header {
+    font-size: var(--h2-size);
     padding: 4px 5px;
     max-width: fit-content;
     border-radius: 6px;
@@ -178,5 +204,39 @@ filter:active {
     opacity: 1!important;
     scale: 1!important;
     transition-behavior: allow-discrete;
+
+}
+
+@media (min-width: 590px) {
+    
+    :root {
+        --h2-size: 14px;
+        --p-size: 11px;
+    }
+
+}
+
+@media (min-width: 1440px) {
+
+    body {
+        grid-template-rows: auto 1fr;
+        
+    }
+
+    main {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        gap: 20px;
+        grid-template-rows: 1fr;
+    }
+
+    .filters-wrapper {
+        flex-direction: column;
+        max-height: 400px;
+    }
+
+    .post {
+        max-width: 100%;
+    }
 
 }

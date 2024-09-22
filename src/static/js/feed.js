@@ -70,8 +70,9 @@ function createPostsElements(json) {
         postsWrapper = document.getElementById("posts-wrapper");
 
         post = document.createElement("article");
-        post.classList.add('post');
+        post.classList.add('post');  
         post.classList.add('flex');
+        post.classList.add('justify-content-center');
         post.classList.add('gap-20px');
         postImage = document.createElement('img');
         postImage.src = `static/img/${json[item].image_path}`;
@@ -90,7 +91,7 @@ function createPostsElements(json) {
         titleWrapper = infoWrapper.childNodes[0];
         titleWrapper.classList.add('flex');
         titleWrapper.classList.add('justify-content-between');
-        title = document.createElement('h3');
+        title = document.createElement('h2');
         title.textContent = json[item].title;
         avatar = document.createElement('img');
         titleWrapper.appendChild(title);
@@ -159,3 +160,35 @@ function directPost() {
     url = `http://127.0.0.1:5000/feed/post/${post.id}`;
     window.location.href = url; 
 }
+
+function desktopQuery(query) {
+    
+    newestBtn = document.getElementById('newest-btn');
+
+    popular = document.getElementById('popular-btn');
+    
+    following = document.getElementById('following-btn');
+
+    if (query.matches) { 
+
+      newestBtn.childNodes[3].textContent = 'Newest and Recent'
+      popular.childNodes[3].textContent = 'Popular of the day'
+
+    } else {
+
+       newestBtn.childNodes[3].textContent = 'Newest'
+      popular.childNodes[3].textContent = 'Popular'
+
+    }
+
+  }
+  
+  // Create a MediaQueryList object
+  var query = window.matchMedia("(min-width: 1440px)")
+  
+  desktopQuery(query)
+
+  // Attach listener function on state changes
+  query.addEventListener("change", function() {
+    desktopQuery(query);
+  });

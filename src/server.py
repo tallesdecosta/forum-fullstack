@@ -89,7 +89,7 @@ def profile(username):
 def post_page(post_id):
     return render_template('post.html', id = post_id)
 
-@app.route('/login')
+@app.route('/auth/login')
 def login():
     auth = request.args.get("auth", "true")
     if current_user.is_authenticated:
@@ -97,7 +97,7 @@ def login():
     else:
         return render_template('login.html', auth = auth)
 
-@app.route('/login', methods =["GET","POST"])
+@app.route('/auth/login', methods =["GET","POST"])
 def login_post():
     if request.method == "POST":
 
@@ -114,7 +114,7 @@ def login_post():
         else:
             return "You are not logged in"
         
-@app.route('/register')
+@app.route('/auth/register')
 def register():
     return render_template('register.html')
 
@@ -153,7 +153,7 @@ def logout():
     logout_user()
     return redirect("/", 302)
 
-@app.route('/register', methods =["GET", "POST"])
+@app.route('/auth/register', methods =["GET", "POST"])
 def register_post():
     if request.method == "POST":
 
