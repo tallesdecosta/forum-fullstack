@@ -1,0 +1,242 @@
+:root {
+    --bg-color: #1E252B;
+    --sec-color: #262D34;
+    --title-color: #F7F7F7;
+    --paragraph-color: #C5D0E6;
+    --accent: #FF6934;
+    --accent-sec: #2C353D;
+    --h2-size: 12px;
+    --p-size: 9px;
+}
+
+h2 {
+    color: var(--title-color);
+    font-size: var(--h2-size);
+    font-weight: 300;
+    max-width: 187px;
+}
+
+p {
+    color: var(--paragraph-color);
+    font-size: var(--p-size);
+}
+
+a {
+    font-size: var(--p-size);
+}
+
+button p, a {
+    color: var(--title-color);
+}
+
+body {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    height: 100vh;
+    
+}
+
+main {
+    background-color: var(--bg-color);
+    padding: 20px 10px 0px 10px;
+    
+}
+
+header {
+    padding: 15px 20px 15px 20px;
+    position: sticky;
+    top: 0px;
+    border-bottom: #1E252B 1px solid;
+}
+
+footer {
+    position: sticky;
+    bottom: 0px;
+    border-top: #1E252B 1px solid;
+}
+
+header, footer, .filters-wrapper, .submit-post-wrapper, .register-warning {
+    background-color: var(--sec-color);
+}
+
+
+#logo {
+    max-width: 35px;
+}
+
+#user-avatar {
+    max-width: 36px;
+    border-radius: 8px;
+}
+
+.filters-wrapper, .register-warning {
+    padding: 6px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    box-shadow: 2px 3px 4px -1px rgba(0,0,0,0.75);
+    max-width: 556px;
+}
+
+.register-warning {
+    
+}
+
+.filter {
+    background-color: transparent;
+}
+
+filter:active {
+    background-color: var(--accent-sec);
+}
+
+.submit-post-wrapper {
+    padding: 14px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 2px 3px 4px -1px rgba(0,0,0,0.75);
+    
+}
+
+.top-wrapper {
+    max-width: 556px;
+    margin-inline: auto;
+}
+
+.top-wrapper > * {
+    flex: 1 1 0;
+    width: 100%;
+}
+
+.post-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+}
+
+.post-avatar {
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+}
+
+.posts-wrapper {
+    overflow: auto;
+    
+    
+}
+
+#post-btn {
+    background-color: var(--accent);
+    color: var(--title-color);
+    padding: 4px 6px 4px 6px;
+    border-radius: 6px;
+    font-size: var(--p-size);
+}
+
+.post {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    background-color: var(--sec-color);
+    box-shadow: 2px 3px 4px -1px rgba(0,0,0,0.75);
+    max-width: 556px;
+    flex: 1 1 0;
+    width: 100%;
+}
+
+.tag {
+    padding: 4px 10px;
+    border-radius: 20px;
+    color: var(--paragraph-color);
+    background-color: var(--accent-sec);
+    font-weight: 200;
+    font-size: 9px;
+}
+
+#post-header {
+    font-size: var(--h2-size);
+    padding: 4px 5px;
+    max-width: fit-content;
+    border-radius: 6px;
+    background-color: var(--accent-sec);
+}
+
+#f-count-span {
+    padding: 6px;
+    background-color: var(--accent);
+    border-radius: 6px;
+}
+
+#following-count {
+    color: var(--title-color);
+}
+
+.active {
+    background-color: var(--accent-sec);
+    padding: 6px;
+    border-radius: 6px;
+}
+
+.filter-img {
+    background-color: var(--accent-sec);
+    padding: 4px;
+    border-radius: 6px;
+}
+
+#menu {
+    position: absolute;
+    display: none;
+    top: 100%;
+    right: 0;
+    padding: 14px 22px;
+    background-color: var(--sec-color);
+    transition: all 0.2s ease;
+    opacity: 0;
+    transition-behavior: allow-discrete;
+    border-bottom: #1E252B 1px solid;
+    border-left: #1E252B 1px solid;
+    
+}
+
+.open-menu {
+    transition: all 0.2s ease;
+    display: block!important;
+    opacity: 1!important;
+    scale: 1!important;
+    transition-behavior: allow-discrete;
+
+}
+
+@media (min-width: 590px) {
+    
+    :root {
+        --h2-size: 14px;
+        --p-size: 11px;
+    }
+
+}
+
+@media (min-width: 1440px) {
+
+    body {
+        grid-template-rows: auto 1fr;
+        
+    }
+
+    main {
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        gap: 20px;
+        grid-template-rows: 1fr;
+    }
+
+    .filters-wrapper {
+        flex-direction: column;
+        max-height: 400px;
+    }
+
+    .post {
+        max-width: 100%;
+    }
+
+}

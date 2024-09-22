@@ -5,15 +5,15 @@
         <link rel="icon" href="img/favicon.ico" type="image/x-icon">
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="{{ url_for('static', filename='core.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='login.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/core.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css') }}">
         <title>Wanderlist</title>
     </head>
     <body>
         <header>
             <nav>
                 <ul>
-                    <li><a href="/login">Return to the login page</a></li>
+                    <li><a href="{{url_for('login')}}">Return to the login page</a></li>
                 </ul>
             </nav>
         </header>

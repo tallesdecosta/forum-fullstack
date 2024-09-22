@@ -2,58 +2,144 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Document</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/core.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/feed.css')}}">
+        <title>Gloo</title>
     </head>
-    <body>
-        <header>
+    <body onload="getPosts()">
+        <header class="flex justify-content-between">
 
-            <div>
+            <div class="flex gap-20px">
 
-                <img src="" alt="">
+                <img id="logo" src="{{ url_for('static', filename='img/icons/light-icons/logo-light.svg')}}" alt="">
 
-                <i></i>
+                <button>
+                    <img src="{{ url_for('static', filename='img/icons/search.svg') }}" alt="">
+                </button>
 
             </div>
 
-            <div>
+            <div class="flex justify-content-between gap-8px">
 
                 <button>
-
+                    <img src="{{ url_for('static', filename='img/icons/light-icons/chat-light.svg')}}" alt="">
                 </button>
 
                 <button>
-                    <img src="" alt="">
+                    <img src="{{ url_for('static', filename='img/icons/light-icons/no-updates-light.svg')}}" alt="">
                 </button>
+
+                {% if current_user.is_authenticated %}
+                <button onclick="showUserMenu()">
+                    <img id="user-avatar" src="static/img/avatars/{{ current_user.avatar }}" alt="">
+                </button>
+                
+                <nav id="menu">
+                    <ul>
+                        <li><a href="{{ url_for('profile', username = current_user.username) }}">Profile</a></li>
+                        <li><a href="{{ url_for('account') }}">Account</a></li>
+                        <li><a href="{{ url_for('logout') }}">Log out</a></li>
+                        
+                    </ul>
+                </nav>
+                {% else %}
+                <a href="{{url_for('login')}}">Login</a>
+                {% endif %}
+                
 
             </div>
 
         </header>
 
-        <section>
+        <main> 
+            <div class="flex collumn align-items-center top-wrapper">
+                {% if current_user.is_authenticated %}
+                <section class="filters-wrapper flex justify-content-center gap-8px">
 
-            <button>Newest</button>
-
-            <button>Popular</button>
-
-            <button>Following</button>
-
-        </section>
-
-        <main>
-            <section>
-                <img src="" alt="">
-                <form action="" method="post">
-                    <fieldset>
-                        <legend>Let's share what's going on...</legend>
-                        <textarea name="" id=""></textarea>
-                    </fieldset>
-                    <input type="submit" value="Create Post">
-                </form>
-            </section>
-            <section class="posts-wrapper">
+                    <button class="filter flex gap-4px align-items-center" id="newest-btn">
+                        <img class="filter-img" src="{{ url_for('static', filename='img/icons/newest.svg')}}" alt="">
+                        <p>Newest</p>
+                    </button>
+        
+                    <button class="filter flex gap-4px align-items-center active" id="popular-btn">
+                        <img class="" src="{{ url_for('static', filename='img/icons/popular.svg')}}" alt="">
+                        <p>Popular</p>
+                    </button>
+                    
+                    <div class="flex align-items-center gap-4px">
+                        <button class="filter flex gap-4px align-items-center" id="following-btn">
+                            <img class="filter-img" src="{{ url_for('static', filename='img/icons/following.svg')}}" alt="">
+                            <p>Following</p>
+                        </button>
+                        <span id="f-count-span">
+                            <p id="following-count">100</p>
+                        </span>
+                    </div>
+        
+                </section>
                 
+                <section class="submit-post-wrapper flex collumn justify-content-center align-items-center gap-8px">
+                    <p id="post-header">Let's share? Don't be shy :p</p>
+                    <a id="post-btn" href="{{url_for('create_post')}}">Create Post</a>
+                </section>
+                {% else %}
+                <section class="register-warning flex collumn align-items-center gap-4px">
+                    <h2>Navegating without an account? Join us an enjoy much more</h2>
+                    <a href="{{url_for('register')}}">Register</a>
+                    <div>
+                        <p>Already have an account?</p>
+                        <a href="{{url_for('login')}}">Login</a>
+                    </div>
+                </section>        
+                {% endif %}
+            </div>
+
+            <section class="posts-wrapper flex collumn align-items-center" id="posts-wrapper">
+                <article class="post flex justify-content-center gap-20px">
+                    <img class="post-img" src="{{ url_for('static', filename='img/no-pic.jpg') }}" alt="">
+                    <div class="flex collumn gap-8px">
+                        <div class="flex justify-content-between">
+                            <h2>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nulla itaque assumenda culpa tempora fuga libero iure minus dolore. Odio similique ipsum ut neque ducimus suscipit debitis, cupiditate beatae commodi eos.</h2>
+                            <img class="post-avatar" src="{{ url_for('static', filename='img/no-pic.jpg')}}" alt="">
+                        </div>
+                        <div>
+                            <button class="tag">tag</button>
+                            <button class="tag">tag</button>
+                            <button class="tag">tag</button>
+                        </div>
+                        <div class="flex gap-30px">
+                            <p>X likes</p>
+                            <p>Y comments</p>
+                        </div>
+                    </div>
+                </article>
+                <article class="post flex justify-content-center gap-20px">
+                    <img class="post-img" src="{{ url_for('static', filename='img/no-pic.jpg') }}" alt="">
+                    <div class="flex collumn gap-8px">
+                        <div class="flex justify-content-between">
+                            <h2>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nulla itaque assumenda culpa tempora fuga libero iure minus dolore. Odio similique ipsum ut neque ducimus suscipit debitis, cupiditate beatae commodi eos.</h2>
+                            <img class="post-avatar" src="{{ url_for('static', filename='img/no-pic.jpg')}}" alt="">
+                        </div>
+                        <div>
+                            <button class="tag">tag</button>
+                            <button class="tag">tag</button>
+                            <button class="tag">tag</button>
+                        </div>
+                        <div class="flex gap-30px">
+                            <p>X likes</p>
+                            <p>Y comments</p>
+                        </div>
+                    </div>
+                </article>
             </section>
         </main>
+        <footer>
+            a
+        </footer>
     </body>
+    <script>
+        let username = "{{ current_user.username }}"
+    </script>
+    <script defer src="{{ url_for('static', filename='js/feed.js') }}"></script>
 </html>

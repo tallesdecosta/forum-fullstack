@@ -1,7 +1,7 @@
 import psycopg2
 import auth as auth
 import database as database
-from flask import Flask, request, render_template, redirect, session, url_for
+from flask import Flask, request, render_template, redirect, session, url_for, jsonify, abort
 from dotenv import load_dotenv
 import bcrypt
 import os
@@ -16,6 +16,8 @@ def create_app():
     app.debug = True
     app.secret_key = os.getenv("key")
     database.create_table_users()
+    database.create_table_posts()
+    database.create_table_comments()
     return app
 
 app = create_app()
@@ -24,10 +26,11 @@ log = LoginManager()
 log.init_app(app)
 
 class User(UserMixin):
-    def __init__(self, id, username, email):
+    def __init__(self, id, username, email, avatar):
         self.id = id
         self.username = username
         self.email = email
+        self.avatar = avatar
 
     @staticmethod
     def get(userId):
@@ -35,18 +38,20 @@ class User(UserMixin):
         cur = con.cursor()
 
         try:
-            cur.execute("SELECT id, username, email FROM users WHERE id = (%s)", (userId))
+            cur.execute("SELECT user_id, username, email, avatar_path FROM users WHERE user_id = (%s)", (userId))
             data = cur.fetchone()
+            con.close()
+            cur.close()
+        
+            if data:
+                return User(data[0], data[1], data[2], data[3])
+        
+            return None
+
         except Exception as err:
             print(err)
 
-        con.close()
-        cur.close()
-
-        if data:
-            return User(data[0], data[1], data[2])
         
-        return None
 
 @log.user_loader
 def load_user(userId):
@@ -55,15 +60,36 @@ def load_user(userId):
 ## routing
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return redirect('/feed')
 
 @app.route('/feed')
-@login_required
 def feed():
     return render_template("feed.html")
 
+@app.route('/profile/create_post')
+@login_required
+def create_post():
+    return render_template('create-post.html')
 
-@app.route('/login')
+@app.route('/api/posts', methods = ['GET'])
+def get_posts():
+    posts = database.get_posts()
+    return jsonify(posts)
+
+@app.route('/api/posts', methods = ['POST'])
+def post_posts():
+    data = request.get_json()
+    return jsonify(data)
+
+@app.route('/profile/<string:username>')
+def profile(username):
+    return render_template('profile.html', user = username)
+
+@app.route('/feed/post/<int:post_id>')
+def post_page(post_id):
+    return render_template('post.html', id = post_id)
+
+@app.route('/auth/login')
 def login():
     auth = request.args.get("auth", "true")
     if current_user.is_authenticated:
@@ -71,24 +97,24 @@ def login():
     else:
         return render_template('login.html', auth = auth)
 
-@app.route('/login', methods =["GET","POST"])
+@app.route('/auth/login', methods =["GET","POST"])
 def login_post():
     if request.method == "POST":
 
         form_email = request.form.get("email")
         form_password = request.form.get("password")
 
-        id, username, email, password = database.select_data(form_email)
+        id, username, email, password, avatar = database.select_data(form_email)
 
         if auth.compare_password(form_password, password) == True:
-            user = User(id, username, email)
+            user = User(id, username, email, avatar)
             login_user(user)
             return redirect("/", 301)
         
         else:
             return "You are not logged in"
         
-@app.route('/register')
+@app.route('/auth/register')
 def register():
     return render_template('register.html')
 
@@ -97,7 +123,7 @@ def register():
 def account():
     return render_template("account.html")
 
-@app.route('/account', methods = ["GET", "POST"])
+@app.route('/account', methods = ["POST"])
 def change_information():
     if request.form.get("type") == "username":
         username = request.form.get("username")
@@ -122,29 +148,29 @@ def change_information():
         else:
             return redirect("/account", 402)
         
-
 @app.route('/logout')
 def logout():
     logout_user()
     return redirect("/", 302)
 
-@app.route('/register', methods =["GET", "POST"])
+@app.route('/auth/register', methods =["GET", "POST"])
 def register_post():
     if request.method == "POST":
+
         email = request.form.get("email")
         password = request.form.get("password")
         username = request.form.get("username")
 
         email_valid, password_valid, username_valid = auth.validate_register(email, password, username)
 
-        if email_valid == True and password_valid == True and username_valid == True:
+        if (email_valid == True and password_valid == True and username_valid == True and auth.check_duplicate(email, password) == False):
             hashed_password = auth.encrypt_password(password)
             database.create_table_users()
             database.insert_user(username, hashed_password, email)
-            return redirect("/", 302)
+            return redirect(url_for('login'), 302)
         
         else:
-            return "Registration failed"
+            return redirect(url_for("register", invalid = "true"))
 
 @log.unauthorized_handler
 def unauthorized_callback():
