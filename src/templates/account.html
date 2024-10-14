@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='core.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/core.css') }}">
 </head>
 <body>
     <header>
@@ -45,8 +45,12 @@
                     <input type="password" id="password" pattern="{12,70}" name="password" minlength="12" maxlength="70" required>
                     <input type="submit" value="Change password">
                 </form>
+                <form action="#" method="delete">
+                    <button type="button" onclick="deleteAccount({{ current_user.id }})">Delete account</button>
+                </form>
             </section>
         </article>
     </main>
 </body>
+<script src="{{ url_for('static', filename='js/account.js') }}"></script>
 </html>

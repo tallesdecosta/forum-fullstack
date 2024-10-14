@@ -1,10 +1,13 @@
+addEventListener('scrollend', () => {
 
+    getPosts();
+});
 
 async function getPosts() {
 
     try {
         
-        response = await fetch('http://127.0.0.1:5000/api/posts', {
+        response = await fetch('/api/posts', {
             method: 'GET',
         }).then( (res) => {
 
@@ -17,8 +20,15 @@ async function getPosts() {
             return res.json();
 
         });
+
         console.log(response)
-        createPostsElements(response);
+
+        if(response != 'none'){
+
+            createPostsElements(response);
+        }
+
+        
 
     } catch (error) {
 
@@ -29,55 +39,26 @@ async function getPosts() {
 
 };
 
-async function sendPost() {
-
-    postContent = document.getElementById('post-content');
-
-    response = await fetch('http://127.0.0.1:5000/api/posts', {
-
-        method: 'POST',
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-        body: JSON.stringify({
-            title: `${postContent.value}`,
-            content: `${postContent.value}`,
-            user: `${username}`,
-            datetime: `${new Date().toLocaleString()}`
-        })
-    }).then( (res) => {
-
-        if (!res.ok) {
-
-            throw new Error(`HTTP ERROR STATUS ${res.status}`);
-
-        }
-
-        return res.json();
-
-    });
-
-    console.log(response);
-
-}
 
 function createPostsElements(json) {
 
     
     for (item in json) {
-        console.log(item)
+        
+        console.log(json)
         postsWrapper = document.getElementById("posts-wrapper");
 
         post = document.createElement("article");
+        post.setAttribute('published', json[item].was_made);
         post.classList.add('post');  
         post.classList.add('flex');
         post.classList.add('justify-content-center');
         post.classList.add('gap-20px');
         postImage = document.createElement('img');
-        postImage.src = `static/img/${json[item].image_path}`;
+        postImage.src = `static/img/avatars/${json[item].image_path}`;
         postImage.classList.add('post-img');
-        post.appendChild(postImage);
+        post.appendChild(postImage)
+        console.log(postImage.src);
         
         post.appendChild(document.createElement('div'));
         infoWrapper = post.childNodes[1];
@@ -95,7 +76,7 @@ function createPostsElements(json) {
         title.textContent = json[item].title;
         avatar = document.createElement('img');
         titleWrapper.appendChild(title);
-        avatar.src = json[item].avatar_path;
+        avatar.src = `static/img/avatars/${json[item].image_path}`;
         avatar.classList.add('post-avatar');
         titleWrapper.appendChild(avatar);
 

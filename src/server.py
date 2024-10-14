@@ -1,7 +1,7 @@
 import psycopg2
 import auth as auth
 import database as database
-from flask import Flask, request, render_template, redirect, session, url_for, jsonify, abort
+from flask import Flask, request, render_template, redirect, session, url_for, jsonify, abort, Response
 from dotenv import load_dotenv
 import bcrypt
 import os
@@ -79,6 +79,7 @@ def get_posts():
 @app.route('/api/posts', methods = ['POST'])
 def post_posts():
     data = request.get_json()
+    database.insert_posts(data)
     return jsonify(data)
 
 @app.route('/profile/<string:username>')
@@ -100,19 +101,28 @@ def login():
 @app.route('/auth/login', methods =["GET","POST"])
 def login_post():
     if request.method == "POST":
-
+        
         form_email = request.form.get("email")
-        form_password = request.form.get("password")
+        print(database.select_data(form_email))
 
-        id, username, email, password, avatar = database.select_data(form_email)
+        if (database.select_data(form_email)  != 'none'):
+        
+            form_password = request.form.get("password")
 
-        if auth.compare_password(form_password, password) == True:
-            user = User(id, username, email, avatar)
-            login_user(user)
-            return redirect("/", 301)
+            id, username, email, password, avatar = database.select_data(form_email)
+
+            if auth.compare_password(form_password, password) == True:
+                user = User(id, username, email, avatar)
+                login_user(user)
+                return redirect("/", 301)
+            else: 
+                return "You are not logged in"
         
         else:
             return "You are not logged in"
+
+        
+        
         
 @app.route('/auth/register')
 def register():
@@ -148,6 +158,12 @@ def change_information():
         else:
             return redirect("/account", 402)
         
+@app.route('/account/<id>', methods = ["DELETE"])
+def delete_account(id):
+    database.delete_user(id)
+    return redirect("/", 302)
+
+
 @app.route('/logout')
 def logout():
     logout_user()

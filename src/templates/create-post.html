@@ -7,19 +7,15 @@
     </head>
     <body>
         
-        <header>
-
-        </header>
-
-        <main>
-
-            
-
-        </main>
-
-        <footer>
-
-        </footer>
+        <form action="#" method="post">
+            <label for="post-title">Write your post title:</label>
+            <input type="text" id="post-title" name="post-title">
+            <br>
+            <label for="post-content">Write your post:</label>
+            <textarea name="post-content" id="post-content"></textarea>
+            <button type="button" onclick="sendPost('{{current_user.id}}')">Send post</button>
+        </form>
 
     </body>
+    <script defer src="{{url_for('static', filename='js/create-post.js')}}"></script>
 </html>

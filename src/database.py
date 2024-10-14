@@ -89,14 +89,14 @@ def create_table_comments():
     cur.close()
 
 def insert_user(username, hash_password, email):
-    """Insert new user row (user_id, username, password hash, email) in the table users."""
+    """Insert new user row (user_id, username, password hash, email, image_path) in the table users."""
 
     con = connect_database()
     cur = con.cursor()
 
     try:
-        cur.execute("""INSERT INTO users (username, password, email) VALUES (%s, %s, %s);""", 
-    (username, hash_password, email))
+        cur.execute("""INSERT INTO users (username, password, email, image_path) VALUES (%s, %s, %s, %s);""", 
+    (username, hash_password, email, 'no-pic.jpg'))
         con.commit()
     except Exception as err:
         print(err)
@@ -228,7 +228,7 @@ def get_posts():
     cur = con.cursor()
 
     try:
-        cur.execute("""SELECT * FROM posts LIMIT 5""")
+        cur.execute("""SELECT user_id, post_id, title, content, likes, comments, was_made::varchar, image_path FROM posts LIMIT 5""")
         posts = cur.fetchall()
         con.close()
         cur.close()
@@ -250,6 +250,37 @@ def update_password(id, password):
 
     try:
         cur.execute("""UPDATE users SET password = %s WHERE user_id = %s;""", (password, id))
+        con.commit()
+    except Exception as err:
+        print(err)
+
+    con.close()
+    cur.close()
+
+
+def delete_user(id):
+
+    con = connect_database()
+    cur = con.cursor()
+
+    try:
+        cur.execute("""DELETE FROM posts WHERE user_id=%s;""", (id,))
+        cur.execute("""DELETE FROM users WHERE user_id=%s;""", (id,))
+        con.commit()
+    except Exception as err:
+        print(err)
+
+    con.close()
+    cur.close()
+
+
+def insert_posts(data):
+    print(data)
+    con = connect_database()
+    cur = con.cursor()
+
+    try:
+        cur.execute("""INSERT INTO posts(user_id, title, content, likes, comments, was_made, image_path) VALUES(%s, %s, %s, %s, %s, to_timestamp(%s, 'DD-MM-YYYY HH24:MI:SS'), %s)""", (data['user'], data['title'], data['content'], 0, 0, data['datetime'], 'no-pic.jpg',))
         con.commit()
     except Exception as err:
         print(err)
